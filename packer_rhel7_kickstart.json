@@ -47,7 +47,7 @@
      {
        "type": "shell-local",
        "inline": [
-         "virt-sparsify --inplace rhel_image/packer-rhel-7-x86_64.qcow2"
+         "virt-sparsify --inplace rhel_image/packer_rhel7_image.qcow2"
        ]
     }]
 }
