@@ -1,0 +1,11 @@
+---
+- name: Create a template from qcow
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - variables.yml
+
+
+  roles:
+    - oVirt.image-template

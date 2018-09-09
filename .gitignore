@@ -1,0 +1,4 @@
+packer_cache/*
+iso/*
+rhel_image/*
+ansible/variables.yml

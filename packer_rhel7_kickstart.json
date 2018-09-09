@@ -1,0 +1,53 @@
+{
+  "variables": {
+    "rhel_vm_name": "",
+    "rhel_iso_urls": "",
+    "rhel_iso_checksum": ""
+  },
+  "provisioners": [
+    {
+      "type": "ansible",
+      "user": "packer",
+      "playbook_file": "ansible/install.yml"
+    },
+    {
+      "type": "shell",
+      "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "script": "scripts/cleanup.sh"
+  }],
+  "builders": [
+    {
+      "vm_name": "{{user `rhel_vm_name`}}",
+      "type": "qemu",
+      "iso_urls": "{{user `rhel_iso_urls`}}",
+      "iso_checksum_type": "sha256",
+      "iso_checksum": "{{user `rhel_iso_checksum`}}",
+      "headless": true,
+      "accelerator": "kvm",
+      "output_directory": "rhel_image",
+      "shutdown_command": "sudo -S shutdown -P now",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 10240,
+      "disk_image": false,
+      "format": "qcow2",
+      "net_device": "virtio-net",
+      "http_directory": "http",
+      "ssh_username": "packer",
+      "ssh_password": "changeme",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "950s",
+      "qemuargs": [
+        [ "-smbios", "type=1,product=RHEV Hypervisor" ]
+      ]
+    }],
+   "post-processors": [
+     {
+       "type": "shell-local",
+       "inline": [
+         "virt-sparsify --inplace rhel_image/packer-rhel-7-x86_64.qcow2"
+       ]
+    }]
+}

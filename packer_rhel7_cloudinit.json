@@ -1,0 +1,43 @@
+{
+  "variables": {
+    "rhel_vm_name": "",
+    "rhel_iso_urls": "",
+    "rhel_iso_checksum": ""
+  },
+  "provisioners": [
+    {
+      "type": "ansible",
+      "user": "packer",
+      "playbook_file": "ansible/install.yml"
+    },
+    {
+      "type": "shell",
+      "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "script": "scripts/cleanup.sh"
+  }],
+  "builders": [
+    {
+     "vm_name": "{{user `rhel_vm_name`}}",
+      "type": "qemu",
+      "iso_urls": "{{user `rhel_iso_urls`}}",
+      "iso_checksum_type": "sha256",
+      "iso_checksum": "{{user `rhel_iso_checksum`}}",
+      "floppy_files": ["cloud-init/user-data.txt"],
+      "headless": true,
+      "accelerator": "kvm",
+      "output_directory": "rhel_image",
+      "shutdown_command": "sudo -S shutdown -P now",
+      "boot_wait": "10s",
+      "disk_size": 10240,
+      "disk_image": true,
+      "format": "qcow2",
+      "net_device": "virtio-net",
+      "ssh_username": "cloud-user",
+      "ssh_password": "changeme",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "950s",
+      "qemuargs": [
+        [ "-smbios", "type=1,product=RHEV Hypervisor" ]
+      ]
+    }]
+}

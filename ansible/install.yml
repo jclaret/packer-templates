@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: "yes"
+  gather_facts: "yes"
+  vars_files:
+    - variables.yml
+  tasks:
+    - include_role:
+        name: initial_setup
+      vars:
+        register: true

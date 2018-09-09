@@ -1,0 +1,32 @@
+---
+# tasks file for rhn_register
+- name: Initial Setup | register node
+  redhat_subscription:
+    state: "{{ rhn_register }}"
+    username: "{{ rhn_username }}"
+    password: "{{ rhn_password }}"
+    pool_ids: "{{ rhn_pool }}"
+    auto_attach: true
+
+- name: Initial Setup | enable repos
+  rhsm_repository:
+    name: "{{ item }}"
+    state: enabled
+  with_items:
+    - "{{ rhn_repos }}"
+  when: "'present' in rhn_register"
+
+- name: Initial Setup | upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+  when: "'present' in rhn_register"
+
+- name: Ansible MOTD | motd file
+  template:
+    src: motd.j2
+    dest: /etc/motd
+
+- name: Initial Setup | set hostname
+  hostname:
+    name: "{{ image_base_hostname }}"

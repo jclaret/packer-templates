@@ -1,0 +1,5 @@
+{
+   "rhel_vm_name": "packer_rhel7_image.qcow2",
+   "rhel_iso_urls": "iso/rhel-server-7.5-x86_64-dvd.iso",
+   "rhel_iso_checksum": "d0dd6ae5e001fb050dafefdfd871e7e648b147fb2d35f0e106e0b34a0163e8f5"
+}
