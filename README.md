@@ -64,7 +64,7 @@ template_disk_storage: vmstore01
     $ create_kickstart_image.sh
 ```
 
-- Finally, we will upload the image to RHV Engine with [oVirt.image-template][https://github.com/oVirt/ovirt-ansible-image-template/blob/master/README.md] role
+- Finally, we will upload the image to RHV Engine with [oVirt.image-template](https://github.com/oVirt/ovirt-ansible-image-template/blob/master/README.md) role
 ```
     $ ansible-galaxy install -r requirements.yml
     $ ansible-playbook ansible/rhv_create_template.yml
