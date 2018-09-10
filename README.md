@@ -64,11 +64,12 @@ template_disk_storage: vmstore01
     $ create_kickstart_image.sh
 ```
 
-- Finally, install the ansible role and run the ansible playbook to upload the new qcow2 file to RHEV
+- Finally, we will upload the image to RHV Engine with [oVirt.image-template][https://github.com/oVirt/ovirt-ansible-image-template/blob/master/README.md] role
 ```
     $ ansible-galaxy install -r requirements.yml
     $ ansible-playbook ansible/rhv_create_template.yml
 ```
+There's another ovirt role [vm-infra](https://github.com/oVirt/ovirt-ansible-vm-infra/blob/master/README.md) to create new VM from a template with ansible as well.
 
 ## License
 
